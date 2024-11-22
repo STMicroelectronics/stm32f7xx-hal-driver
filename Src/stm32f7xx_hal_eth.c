@@ -1547,6 +1547,9 @@ HAL_StatusTypeDef HAL_ETH_PTP_SetConfig(ETH_HandleTypeDef *heth, ETH_PTP_ConfigT
     return HAL_ERROR;
   }
 
+  /* Mask the Timestamp Trigger interrupt */
+  CLEAR_BIT(heth->Instance->MACIER, ETH_MACIER_TSIE);
+
   tmpTSCR = ptpconfig->Timestamp |
             ((uint32_t)ptpconfig->TimestampUpdate << ETH_PTPTSCR_TSFCU_Pos) |
             ((uint32_t)ptpconfig->TimestampAll << ETH_PTPTSCR_TSSARFE_Pos) |
@@ -1578,8 +1581,11 @@ HAL_StatusTypeDef HAL_ETH_PTP_SetConfig(ETH_HandleTypeDef *heth, ETH_PTP_ConfigT
     }
   }
 
-  /* Ptp Init */
-  SET_BIT(heth->Instance->PTPTSCR, ETH_PTPTSCR_TSSTI);
+  /* Enable Update mode */
+  if (ptpconfig->TimestampUpdateMode == ENABLE)
+  {
+    SET_BIT(heth->Instance->PTPTSCR, ETH_PTPTSCR_TSFCU);
+  }
 
   /* Set PTP Configuration done */
   heth->IsPtpConfigured = HAL_ETH_PTP_CONFIGURED;
@@ -1590,6 +1596,9 @@ HAL_StatusTypeDef HAL_ETH_PTP_SetConfig(ETH_HandleTypeDef *heth, ETH_PTP_ConfigT
   time.NanoSeconds = heth->Instance->PTPTSLR;
 
   HAL_ETH_PTP_SetTime(heth, &time);
+
+  /* Ptp Init */
+  SET_BIT(heth->Instance->PTPTSCR, ETH_PTPTSCR_TSSTI);
 
   /* Return function status */
   return HAL_OK;
