@@ -814,9 +814,9 @@ HAL_StatusTypeDef HAL_SPI_UnRegisterCallback(SPI_HandleTypeDef *hspi, HAL_SPI_Ca
   * @brief  Transmit an amount of data in blocking mode.
   * @param  hspi pointer to a SPI_HandleTypeDef structure that contains
   *               the configuration information for SPI module.
-  * @param  pData pointer to data buffer
-  * @param  Size amount of data to be sent
-  * @param  Timeout Timeout duration
+  * @param  pData pointer to data buffer (u8 or u16 data elements)
+  * @param  Size amount of data elements (u8 or u16) to be sent
+  * @param  Timeout Timeout duration in ms
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_SPI_Transmit(SPI_HandleTypeDef *hspi, uint8_t *pData, uint16_t Size, uint32_t Timeout)
@@ -1004,9 +1004,9 @@ error:
   * @brief  Receive an amount of data in blocking mode.
   * @param  hspi pointer to a SPI_HandleTypeDef structure that contains
   *               the configuration information for SPI module.
-  * @param  pData pointer to data buffer
-  * @param  Size amount of data to be received
-  * @param  Timeout Timeout duration
+  * @param  pData pointer to data buffer (u8 or u16 data elements)
+  * @param  Size amount of data elements (u8 or u16) to be received
+  * @param  Timeout Timeout duration in ms
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_SPI_Receive(SPI_HandleTypeDef *hspi, uint8_t *pData, uint16_t Size, uint32_t Timeout)
@@ -1248,10 +1248,10 @@ error :
   * @brief  Transmit and Receive an amount of data in blocking mode.
   * @param  hspi pointer to a SPI_HandleTypeDef structure that contains
   *               the configuration information for SPI module.
-  * @param  pTxData pointer to transmission data buffer
-  * @param  pRxData pointer to reception data buffer
-  * @param  Size amount of data to be sent and received
-  * @param  Timeout Timeout duration
+  * @param  pTxData pointer to transmission data buffer (u8 or u16 data elements)
+  * @param  pRxData pointer to reception data buffer (u8 or u16 data elements)
+  * @param  Size amount of data elements (u8 or u16) to be sent and received
+  * @param  Timeout Timeout duration in ms
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_SPI_TransmitReceive(SPI_HandleTypeDef *hspi, uint8_t *pTxData, uint8_t *pRxData, uint16_t Size,
@@ -1596,8 +1596,8 @@ error :
   * @brief  Transmit an amount of data in non-blocking mode with Interrupt.
   * @param  hspi pointer to a SPI_HandleTypeDef structure that contains
   *               the configuration information for SPI module.
-  * @param  pData pointer to data buffer
-  * @param  Size amount of data to be sent
+  * @param  pData pointer to data buffer (u8 or u16 data elements)
+  * @param  Size amount of data elements (u8 or u16) to be sent
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_SPI_Transmit_IT(SPI_HandleTypeDef *hspi, uint8_t *pData, uint16_t Size)
@@ -1682,8 +1682,8 @@ error :
   * @brief  Receive an amount of data in non-blocking mode with Interrupt.
   * @param  hspi pointer to a SPI_HandleTypeDef structure that contains
   *               the configuration information for SPI module.
-  * @param  pData pointer to data buffer
-  * @param  Size amount of data to be sent
+  * @param  pData pointer to data buffer (u8 or u16 data elements)
+  * @param  Size amount of data elements (u8 or u16) to be received
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_SPI_Receive_IT(SPI_HandleTypeDef *hspi, uint8_t *pData, uint16_t Size)
@@ -1790,9 +1790,9 @@ error :
   * @brief  Transmit and Receive an amount of data in non-blocking mode with Interrupt.
   * @param  hspi pointer to a SPI_HandleTypeDef structure that contains
   *               the configuration information for SPI module.
-  * @param  pTxData pointer to transmission data buffer
-  * @param  pRxData pointer to reception data buffer
-  * @param  Size amount of data to be sent and received
+  * @param  pTxData pointer to transmission data buffer (u8 or u16 data elements)
+  * @param  pRxData pointer to reception data buffer (u8 or u16 data elements)
+  * @param  Size amount of data elements (u8 or u16) to be sent and received
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_SPI_TransmitReceive_IT(SPI_HandleTypeDef *hspi, uint8_t *pTxData, uint8_t *pRxData, uint16_t Size)
@@ -1901,8 +1901,8 @@ error :
   * @brief  Transmit an amount of data in non-blocking mode with DMA.
   * @param  hspi pointer to a SPI_HandleTypeDef structure that contains
   *               the configuration information for SPI module.
-  * @param  pData pointer to data buffer
-  * @param  Size amount of data to be sent
+  * @param  pData pointer to data buffer  (u8 or u16 data elements)
+  * @param  Size amount of data elements (u8 or u16) to be sent
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_SPI_Transmit_DMA(SPI_HandleTypeDef *hspi, uint8_t *pData, uint16_t Size)
@@ -2024,9 +2024,9 @@ error :
   * @note   In case of MASTER mode and SPI_DIRECTION_2LINES direction, hdmatx shall be defined.
   * @param  hspi pointer to a SPI_HandleTypeDef structure that contains
   *               the configuration information for SPI module.
-  * @param  pData pointer to data buffer
+  * @param  pData pointer to data buffer (u8 or u16 data elements)
   * @note   When the CRC feature is enabled the pData Length must be Size + 1.
-  * @param  Size amount of data to be sent
+  * @param  Size amount of data elements (u8 or u16) to be received
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_SPI_Receive_DMA(SPI_HandleTypeDef *hspi, uint8_t *pData, uint16_t Size)
@@ -2167,10 +2167,10 @@ error:
   * @brief  Transmit and Receive an amount of data in non-blocking mode with DMA.
   * @param  hspi pointer to a SPI_HandleTypeDef structure that contains
   *               the configuration information for SPI module.
-  * @param  pTxData pointer to transmission data buffer
-  * @param  pRxData pointer to reception data buffer
+  * @param  pTxData pointer to transmission data buffer (u8 or u16 data elements)
+  * @param  pRxData pointer to reception data buffer (u8 or u16 data elements)
   * @note   When the CRC feature is enabled the pRxData Length must be Size + 1
-  * @param  Size amount of data to be sent
+  * @param  Size amount of data elements (u8 or u16) to be sent and received
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_SPI_TransmitReceive_DMA(SPI_HandleTypeDef *hspi, uint8_t *pTxData, uint8_t *pRxData,
