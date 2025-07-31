@@ -2969,11 +2969,13 @@ __STATIC_INLINE void LL_ADC_INJ_SetSequencerRanks(ADC_TypeDef *ADCx, uint32_t Ra
   /* in register depending on parameter "Rank".                               */
   /* Parameters "Rank" and "Channel" are used with masks because containing   */
   /* other bits reserved for other purpose.                                   */
-  uint32_t tmpreg1 = (READ_BIT(ADCx->JSQR, ADC_JSQR_JL) >> ADC_JSQR_JL_Pos) + 1U;
+  uint8_t jsqoffset =
+    __ADC_MASK_SHIFT(Rank, ADC_INJ_RANK_ID_JSQR_MASK) + 3U -
+    ((READ_BIT(ADCx->JSQR, ADC_JSQR_JL) >> ADC_JSQR_JL_Pos) + 1U);
   
   MODIFY_REG(ADCx->JSQR,
-             ADC_CHANNEL_ID_NUMBER_MASK << (5U * (uint8_t)(((Rank) + 3U) - (tmpreg1))),
-             (Channel & ADC_CHANNEL_ID_NUMBER_MASK) << (5U * (uint8_t)(((Rank) + 3U) - (tmpreg1))));
+             ADC_CHANNEL_ID_NUMBER_MASK << (5U * jsqoffset),
+             (Channel & ADC_CHANNEL_ID_NUMBER_MASK) << (5U * jsqoffset));
 }
 
 /**
@@ -3034,12 +3036,12 @@ __STATIC_INLINE void LL_ADC_INJ_SetSequencerRanks(ADC_TypeDef *ADCx, uint32_t Ra
   */
 __STATIC_INLINE uint32_t LL_ADC_INJ_GetSequencerRanks(ADC_TypeDef *ADCx, uint32_t Rank)
 {
-  uint32_t tmpreg1 = (READ_BIT(ADCx->JSQR, ADC_JSQR_JL) >> ADC_JSQR_JL_Pos)  + 1U;
+  uint8_t jsqoffset =
+    __ADC_MASK_SHIFT(Rank, ADC_INJ_RANK_ID_JSQR_MASK) + 3U -
+    ((READ_BIT(ADCx->JSQR, ADC_JSQR_JL) >> ADC_JSQR_JL_Pos) + 1U);
   
   return (uint32_t)(READ_BIT(ADCx->JSQR,
-                             ADC_CHANNEL_ID_NUMBER_MASK << (5U * (uint8_t)(((Rank) + 3U) - (tmpreg1))))
-                    >> (5U * (uint8_t)(((Rank) + 3U) - (tmpreg1)))
-                   );
+                             ADC_CHANNEL_ID_NUMBER_MASK << (5U * jsqoffset)) >> (5U * jsqoffset));
 }
 
 /**
