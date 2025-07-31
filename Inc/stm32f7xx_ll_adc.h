@@ -2923,6 +2923,8 @@ __STATIC_INLINE uint32_t LL_ADC_INJ_GetSequencerDiscont(ADC_TypeDef *ADCx)
   *         TempSensor, ...), measurement paths to internal channels must be
   *         enabled separately.
   *         This can be done using function @ref LL_ADC_SetCommonPathInternalCh().
+  * @note   Call @ref LL_ADC_INJ_SetSequencerLength to set the sequencer length
+  *         before using this function.
   * @rmtoll JSQR     JSQ1           LL_ADC_INJ_SetSequencerRanks\n
   *         JSQR     JSQ2           LL_ADC_INJ_SetSequencerRanks\n
   *         JSQR     JSQ3           LL_ADC_INJ_SetSequencerRanks\n
