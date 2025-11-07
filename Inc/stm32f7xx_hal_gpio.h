@@ -290,8 +290,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
                             ((MODE) == GPIO_MODE_EVT_FALLING)        ||\
                             ((MODE) == GPIO_MODE_EVT_RISING_FALLING) ||\
                             ((MODE) == GPIO_MODE_ANALOG))
-#define IS_GPIO_SPEED(SPEED) (((SPEED) == GPIO_SPEED_LOW)  || ((SPEED) == GPIO_SPEED_MEDIUM) || \
-                              ((SPEED) == GPIO_SPEED_FAST) || ((SPEED) == GPIO_SPEED_HIGH))
+#define IS_GPIO_SPEED(SPEED) (((SPEED) == GPIO_SPEED_FREQ_LOW)  || ((SPEED) == GPIO_SPEED_FREQ_MEDIUM) || \
+                              ((SPEED) == GPIO_SPEED_FREQ_HIGH) || ((SPEED) == GPIO_SPEED_FREQ_VERY_HIGH))
 #define IS_GPIO_PULL(PULL) (((PULL) == GPIO_NOPULL) || ((PULL) == GPIO_PULLUP) || \
                             ((PULL) == GPIO_PULLDOWN))
 /**
