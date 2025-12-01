@@ -195,8 +195,8 @@ void HAL_NOR_MspWait(NOR_HandleTypeDef *hnor, uint32_t Timeout);
 /* I/O operation functions  ***************************************************/
 HAL_StatusTypeDef HAL_NOR_Read_ID(NOR_HandleTypeDef *hnor, NOR_IDTypeDef *pNOR_ID);
 HAL_StatusTypeDef HAL_NOR_ReturnToReadMode(NOR_HandleTypeDef *hnor);
-HAL_StatusTypeDef HAL_NOR_Read(NOR_HandleTypeDef *hnor, uint32_t *pAddress, uint16_t *pData);
-HAL_StatusTypeDef HAL_NOR_Program(NOR_HandleTypeDef *hnor, uint32_t *pAddress, uint16_t *pData);
+HAL_StatusTypeDef HAL_NOR_Read(NOR_HandleTypeDef *hnor, uint8_t *pAddress, void *pData);
+HAL_StatusTypeDef HAL_NOR_Program(NOR_HandleTypeDef *hnor, uint8_t *pAddress, uint32_t data);
 
 HAL_StatusTypeDef HAL_NOR_ReadBuffer(NOR_HandleTypeDef *hnor, uint32_t uwAddress, uint16_t *pData,
                                      uint32_t uwBufferSize);
@@ -244,6 +244,10 @@ HAL_NOR_StatusTypeDef HAL_NOR_GetStatus(NOR_HandleTypeDef *hnor, uint32_t Addres
   */
 
 /* Private types -------------------------------------------------------------*/
+/** @defgroup NOR_Private_Types NOR Private Types
+  * @{
+  */
+ typedef void (*WriteNORFunc)(uint32_t Address, uint32_t Data);
 /* Private variables ---------------------------------------------------------*/
 /* Private constants ---------------------------------------------------------*/
 /** @defgroup NOR_Private_Constants NOR Private Constants
@@ -282,6 +286,34 @@ HAL_NOR_StatusTypeDef HAL_NOR_GetStatus(NOR_HandleTypeDef *hnor, uint32_t Addres
   * @{
   */
 /**
+  * @brief  NOR memory write 8-bit data to specified address.
+  * @param  Address NOR memory address
+  * @param  Data Data to write
+  * @retval None
+  */
+ static inline void WriteNOR_x8(uint32_t Address, uint32_t Data)
+ {
+   do{
+   (*(__IO uint8_t *)((uint32_t)(Address)) = (Data & 0xFF));
+   __DSB();
+   } while(0);
+ }
+ /**
+   * @brief  NOR memory write 16-bit data to specified address.
+   * @param  Address NOR memory address
+   * @param  Data Data to write
+   * @retval None
+   */
+ static inline void WriteNOR_x16(uint32_t Address, uint32_t Data)
+ {
+   do{
+     (*(__IO uint16_t *)((uint32_t)(Address)) = (Data & 0xFFFF));
+     __DSB();
+   } while(0);
+ }
+
+extern WriteNORFunc NORWriteFunction; /* Function Pointer to active NOR_Write*/
+/**
   * @brief  NOR memory address shifting.
   * @param  __NOR_ADDRESS NOR base address
   * @param  __NOR_MEMORY_WIDTH_ NOR memory width
@@ -294,15 +326,11 @@ HAL_NOR_StatusTypeDef HAL_NOR_GetStatus(NOR_HandleTypeDef *hnor, uint32_t Addres
               ((uint32_t)((__NOR_ADDRESS) + (__ADDRESS__)))))
 
 /**
-  * @brief  NOR memory write data to specified address.
-  * @param  __ADDRESS__ NOR memory address
-  * @param  __DATA__ Data to write
-  * @retval None
-  */
-#define NOR_WRITE(__ADDRESS__, __DATA__)   do{                                                             \
-                                               (*(__IO uint16_t *)((uint32_t)(__ADDRESS__)) = (__DATA__)); \
-                                               __DSB();                                                    \
-                                             } while(0)
+ * @brief  NOR memory write data to specified address.
+ * @param  __ADDRESS__ NOR memory address
+ * @param  __DATA__ NOR memory data
+ */
+#define NOR_WRITE(__ADDRESS__, __DATA__)  (NORWriteFunction((uint32_t)(__ADDRESS__), (uint32_t)(__DATA__)))
 
 /**
   * @}
