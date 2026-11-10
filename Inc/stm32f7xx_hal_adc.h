@@ -785,14 +785,14 @@ uint32_t HAL_ADC_GetError(ADC_HandleTypeDef *hadc);
                                       ((__ALIGN__) == ADC_DATAALIGN_LEFT))
 		
                                       									
-#define IS_ADC_SAMPLE_TIME(__TIME__) (((__TIME__) == ADC_SAMPLETIME_3CYCLES)   || \
-                                      ((__TIME__) == ADC_SAMPLETIME_15CYCLES)  || \
-                                      ((__TIME__) == ADC_SAMPLETIME_28CYCLES)  || \
-                                      ((__TIME__) == ADC_SAMPLETIME_56CYCLES)  || \
-                                      ((__TIME__) == ADC_SAMPLETIME_84CYCLES)  || \
-                                      ((__TIME__) == ADC_SAMPLETIME_112CYCLES) || \
-                                      ((__TIME__) == ADC_SAMPLETIME_144CYCLES) || \
-                                      ((__TIME__) == ADC_SAMPLETIME_480CYCLES))	
+#define IS_ADC_SAMPLE_TIME(__SAMPLETIME__) (((__SAMPLETIME__) == ADC_SAMPLETIME_3CYCLES)   || \
+                                      ((__SAMPLETIME__) == ADC_SAMPLETIME_15CYCLES)  || \
+                                      ((__SAMPLETIME__) == ADC_SAMPLETIME_28CYCLES)  || \
+                                      ((__SAMPLETIME__) == ADC_SAMPLETIME_56CYCLES)  || \
+                                      ((__SAMPLETIME__) == ADC_SAMPLETIME_84CYCLES)  || \
+                                      ((__SAMPLETIME__) == ADC_SAMPLETIME_112CYCLES) || \
+                                      ((__SAMPLETIME__) == ADC_SAMPLETIME_144CYCLES) || \
+                                      ((__SAMPLETIME__) == ADC_SAMPLETIME_480CYCLES))	
 #define IS_ADC_EOCSelection(__EOCSelection__) (((__EOCSelection__) == ADC_EOC_SINGLE_CONV)   || \
                                                ((__EOCSelection__) == ADC_EOC_SEQ_CONV)  || \
                                                ((__EOCSelection__) == ADC_EOC_SINGLE_SEQ_CONV))	
